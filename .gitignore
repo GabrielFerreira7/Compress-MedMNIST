@@ -1,0 +1,13 @@
+# Ignorar notebooks Jupyter
+*.ipynb
+
+# Ignorar arquivos de modelos PyTorch
+*.pt
+
+# Ignorar diretórios de cache e arquivos temporários comuns
+__pycache__/
+*.py[cod]
+*.pkl
+*.log
+*.tar
+
