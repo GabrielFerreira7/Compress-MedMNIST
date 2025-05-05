@@ -11,7 +11,7 @@ Este projeto realiza compressão de redes neurais convolucionais por meio de **p
 ├── compression.py # Funções auxiliares de compressão e avaliação  
 ├── prunne.py # Funções específicas de poda de modelos  
 ├── problem.py # Definição do problema para a otimização  
-└── MOS2/ # Diretório de saída com resultados (criado dinamicamente)
+└── Resultados/ # Diretório de saída com resultados (criado dinamicamente)
 
 ---
 
@@ -80,11 +80,11 @@ python nsga.py <ID>
 
 ## 📦 Saída
 
-Os resultados são salvos no diretório `MOS2/`, contendo:
+Os resultados são salvos no diretório `Resultados/`, contendo:
 
-- `Resultados/sn/*Res.pkl`: objeto de resultado completo do `pymoo`.  
-- `Variaveis/Poda/sn/*.pkl`: resultados da compressão com poda.  
-- `Variaveis/Quantizacao/sn/*.pkl`: resultados da compressão com quantização.  
+- `Resultados/*Res.pkl`: objeto de resultado completo do `pymoo`.  
+- `Variaveis/Poda/*.pkl`: resultados da compressão com poda.  
+- `Variaveis/Quantizacao/*.pkl`: resultados da compressão com quantização.  
 
 ---
 
