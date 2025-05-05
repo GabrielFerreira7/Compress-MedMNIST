@@ -1,35 +1,110 @@
-# Train CIFAR10 with PyTorch
+# 🔧 Neural Network Compression with NSGA-III
 
-I'm playing with [PyTorch](http://pytorch.org/) on the CIFAR10 dataset.
+Este projeto realiza compressão de redes neurais convolucionais por meio de **poda** e **quantização**, utilizando algoritmos de **otimização multiobjetivo (MO)** para buscar o melhor trade-off entre **acurácia** e **eficiência computacional (FLOPs)**. A abordagem emprega o algoritmo **NSGA-III** da biblioteca `pymoo`.
 
-## Prerequisites
-- Python 3.6+
-- PyTorch 1.0+
+---
 
-## Training
+## 📁 Estrutura do Projeto
+
+.
+├── nsga.py # Script principal de execução  
+├── compression.py # Funções auxiliares de compressão e avaliação  
+├── prunne.py # Funções específicas de poda de modelos  
+├── problem.py # Definição do problema para a otimização  
+└── MOS2/ # Diretório de saída com resultados (criado dinamicamente)
+
+---
+
+## 🚀 Como Executar
+
+### ✅ Requisitos
+
+- Python 3.8+  
+- pymoo  
+- torch  
+- numpy  
+- scikit-learn  
+- torchvision  
+
+Instale as dependências com:
+
+```bash
+pip install pymoo torch torchvision numpy scikit-learn
 ```
-# Start training with: 
-python main.py
 
-# You can manually resume the training with: 
-python main.py --resume --lr=0.01
+### ▶️ Execução
+
+O script principal é `nsga.py` e deve ser executado via terminal com um argumento indicando o conjunto de dados e arquitetura:
+
+```bash
+python nsga.py <ID>
 ```
 
-## Accuracy
-| Model             | Acc.        |
-| ----------------- | ----------- |
-| [VGG16](https://arxiv.org/abs/1409.1556)              | 92.64%      |
-| [ResNet18](https://arxiv.org/abs/1512.03385)          | 93.02%      |
-| [ResNet50](https://arxiv.org/abs/1512.03385)          | 93.62%      |
-| [ResNet101](https://arxiv.org/abs/1512.03385)         | 93.75%      |
-| [RegNetX_200MF](https://arxiv.org/abs/2003.13678)     | 94.24%      |
-| [RegNetY_400MF](https://arxiv.org/abs/2003.13678)     | 94.29%      |
-| [MobileNetV2](https://arxiv.org/abs/1801.04381)       | 94.43%      |
-| [ResNeXt29(32x4d)](https://arxiv.org/abs/1611.05431)  | 94.73%      |
-| [ResNeXt29(2x64d)](https://arxiv.org/abs/1611.05431)  | 94.82%      |
-| [SimpleDLA](https://arxiv.org/abs/1707.064)           | 94.89%      |
-| [DenseNet121](https://arxiv.org/abs/1608.06993)       | 95.04%      |
-| [PreActResNet18](https://arxiv.org/abs/1603.05027)    | 95.11%      |
-| [DPN92](https://arxiv.org/abs/1707.01629)             | 95.16%      |
-| [DLA](https://arxiv.org/pdf/1707.06484.pdf)           | 95.47%      |
+#### IDs Suportados
 
+| ID | Dataset   | Arquitetura     |
+|----|-----------|-----------------|
+| 1  | CIFAR-10  | ResNet50        |
+| 2  | Blood     | ResNet50        |
+| 3  | Derma     | ResNet50        |
+| 4  | Retina    | ResNet50        |
+| 5  | CIFAR-10  | MobileNet_V2    |
+| 6  | Blood     | MobileNet_V2    |
+| 7  | Derma     | MobileNet_V2    |
+| 8  | Retina    | MobileNet_V2    |
+
+---
+
+## ⚙️ Lógica do Projeto
+
+### nsga.py
+- Define o número de camadas com base no argumento de entrada.  
+- Inicializa o problema de compressão (`problem_compress`).  
+- Executa o algoritmo NSGA-III com critérios definidos.  
+- Salva os resultados (indivíduos, objetivos e tempo) em arquivos `.pkl`.  
+- Aplica a compressão com poda e quantização usando os indivíduos finais.  
+
+### problem.py
+- Implementa `problem_compress`, uma subclasse de `ElementwiseProblem` do `pymoo`.  
+- Define a função objetivo como uma tupla `(acc, flops)` com base na compressão realizada.  
+
+### compression.py
+- Contém funções para avaliação de acurácia, aplicação de compressão, e organização dos resultados.  
+- Chama `eval_compression` (do `prunne.py`) para aplicar as máscaras de poda nas camadas.  
+
+### prunne.py
+- Define funções para aplicação real de poda estrutural (L1) nas camadas convolucionais e lineares.  
+- Calcula FLOPs ajustados após compressão.  
+
+---
+
+## 📦 Saída
+
+Os resultados são salvos no diretório `MOS2/`, contendo:
+
+- `Resultados/sn/*Res.pkl`: objeto de resultado completo do `pymoo`.  
+- `Variaveis/Poda/sn/*.pkl`: resultados da compressão com poda.  
+- `Variaveis/Quantizacao/sn/*.pkl`: resultados da compressão com quantização.  
+
+---
+
+## 📈 Objetivos de Otimização
+
+- **Objetivo 1 (F1):** Minimizar a perda de acurácia após compressão.  
+- **Objetivo 2 (F2):** Minimizar a complexidade computacional (FLOPs) do modelo.  
+
+---
+
+## 🧠 Extensões Futuras
+
+- Adicionar novas arquiteturas como EfficientNet ou DenseNet.  
+- Suporte a quantização-aware training (QAT).  
+- Visualização dos Frentes de Pareto com `matplotlib` ou `pymoo`.  
+
+---
+
+## 👨‍💻 Autor
+
+**Gabriel Ferreira**  
+Mestrando em Ciência da Computação — UFOP  
+Especialista em compressão de redes neurais e otimização multiobjetivo
