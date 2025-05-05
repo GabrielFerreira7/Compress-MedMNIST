@@ -95,6 +95,21 @@ Os resultados são salvos no diretório `Resultados/`, contendo:
 
 ---
 
+## 📊 Resultados e Importância na Área Médica
+
+A abordagem de compressão baseada em **otimização restrita com NSGA-III** demonstrou um impacto significativo em aplicações médicas. Ao aplicar poda e quantização em modelos convolucionais previamente treinados, foi possível **reduzir drasticamente a complexidade computacional (FLOPs)** sem comprometer a acurácia — e, em alguns casos, até aprimorando-a.
+
+Testes conduzidos nos conjuntos de dados **RetinaMNIST, DermaMNIST e BloodMNIST** mostraram que:
+
+- Os modelos comprimidos apresentaram **tempos de inferência muito menores**, algo crucial para diagnósticos rápidos.
+- A estratégia permitiu a **implantação de modelos leves e precisos**, adequados para **dispositivos médicos com recursos limitados**.
+- **Não foi necessário retreinamento extenso**, uma vez que a compressão foi aplicada em redes já treinadas.
+- O controle da intensidade de poda por camada resultou em **modelos mais enxutos e eficientes**.
+
+Esses avanços destacam o potencial da técnica para **melhorar o diagnóstico em tempo real e o monitoramento de pacientes**, contribuindo para a democratização de **inteligência artificial no setor da saúde**. A capacidade de gerar soluções otimizadas, respeitando restrições computacionais, torna a proposta ideal para contextos clínicos onde desempenho e confiabilidade são essenciais.
+
+---
+
 ## 🧠 Extensões Futuras
 
 - Adicionar novas arquiteturas como EfficientNet ou DenseNet.  
